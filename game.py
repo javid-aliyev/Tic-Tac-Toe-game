@@ -1,4 +1,4 @@
-
+#TODO: ADD COLORAMA
 def printboard(board):
 	print()
 	print("+---+---+---+")
@@ -9,9 +9,20 @@ def printboard(board):
 	print("| "+board[6]+" | "+board[7]+" | "+board[8]+" |")
 	print("+---+---+---+")
 
-# def checkwinner(board, player):
-# 	#diagonal
-# 	if board[0] == board[]
+def checkwinner(board):
+	#diagonal
+	if board[0] == board[4] == board[8]: return True
+	elif board[2] == board[4] == board[6]: return True
+	#horizontal
+	elif board[0] == board[1] == board[2]: return True
+	elif board[3] == board[4] == board[5]: return True
+	elif board[6] == board[7] == board[8]: return True
+	#vertical
+	elif board[0] == board[3] == board[6]: return True
+	elif board[1] == board[4] == board[7]: return True
+	elif board[2] == board[5] == board[8]: return True
+
+	return False
 
 def main():
 	board = [
@@ -37,10 +48,15 @@ def main():
 			continue
 
 		board[user_input] = cur_player
-		if cur_player == "X": cur_player = "O"
-		else: cur_player = "X"
-		# winner = checkwinner(board, cur_player) 
-
+		winner = checkwinner(board)
+		if winner:
+			print("Winner is %s!" % cur_player)
+			printboard(board)
+			break
+		else:
+			if cur_player == "X": cur_player = "O"
+			else: cur_player = "X"
+			continue
 
 if __name__ == "__main__":
 	main()
