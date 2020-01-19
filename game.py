@@ -50,8 +50,8 @@ def main():
 		board[user_input] = cur_player
 		winner = checkwinner(board)
 		if winner:
-			print("Winner is %s!" % cur_player)
 			printboard(board)
+			print("Winner is %s!" % cur_player)
 			break
 		else:
 			if cur_player == "X": cur_player = "O"
