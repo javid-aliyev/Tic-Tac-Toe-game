@@ -1,3 +1,4 @@
+
 def printboard(board):
 	print()
 	print("+---+---+---+")
@@ -7,6 +8,10 @@ def printboard(board):
 	print("+---+---+---+")
 	print("| "+board[6]+" | "+board[7]+" | "+board[8]+" |")
 	print("+---+---+---+")
+
+# def checkwinner(board, player):
+# 	#diagonal
+# 	if board[0] == board[]
 
 def main():
 	board = [
@@ -20,7 +25,22 @@ def main():
 	run = True
 	while run:
 		printboard(board)
-		user_input = input(cur_player + " move: ")
+		try:
+			user_input = int(input(cur_player + " move: "))
+		except ValueError:
+			continue
+		except KeyboardInterrupt:
+			run = False
+		# Validating user input
+		if user_input < 0 or user_input > 8:
+			print("No such slot")
+			continue
+
+		board[user_input] = cur_player
+		if cur_player == "X": cur_player = "O"
+		else: cur_player = "X"
+		# winner = checkwinner(board, cur_player) 
+
 
 if __name__ == "__main__":
 	main()
