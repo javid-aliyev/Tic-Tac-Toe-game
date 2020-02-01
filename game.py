@@ -47,16 +47,21 @@ def main():
 			print("No such slot")
 			continue
 
+		# check that the slot is not busy
+		if board[user_input] == "X" or board[user_input] == "O":
+			print("The slot is already busy.")
+			continue
+
 		board[user_input] = cur_player
 		winner = checkwinner(board)
 		if winner:
 			printboard(board)
 			print("Winner is %s!" % cur_player)
 			break
-		else:
-			if cur_player == "X": cur_player = "O"
-			else: cur_player = "X"
-			continue
+		
+		if cur_player == "X": cur_player = "O"
+		else: cur_player = "X"
+		continue
 
 if __name__ == "__main__":
 	main()
