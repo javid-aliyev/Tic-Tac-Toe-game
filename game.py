@@ -1,3 +1,5 @@
+from os import system
+
 #TODO: ADD COLORAMA
 def printboard(board):
 	print()
@@ -35,6 +37,7 @@ def main():
 
 	run = True
 	while run:
+		system("cls") # windows' clear console
 		printboard(board)
 		try:
 			user_input = int(input(cur_player + " move: "))
