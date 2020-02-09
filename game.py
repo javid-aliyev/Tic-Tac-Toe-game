@@ -62,7 +62,6 @@ def main():
 		
 		if cur_player == "X": cur_player = "O"
 		else: cur_player = "X"
-		continue
 
 if __name__ == "__main__":
 	main()
