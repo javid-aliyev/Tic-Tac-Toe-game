@@ -51,7 +51,6 @@ def main():
 
 		# check that the slot is not busy
 		if board[user_input] == "X" or board[user_input] == "O":
-			print("The slot is already busy.")
 			continue
 
 		board[user_input] = cur_player
