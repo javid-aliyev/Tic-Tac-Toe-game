@@ -2,7 +2,7 @@ from os import system
 
 #TODO: ADD COLORAMA
 def printboard(board):
-	print()
+	system("cls") # windows' clear console
 	print("+---+---+---+")
 	print("| "+board[0]+" | "+board[1]+" | "+board[2]+" |")
 	print("+---+---+---+")
@@ -37,7 +37,6 @@ def main():
 
 	run = True
 	while run:
-		system("cls") # windows' clear console
 		printboard(board)
 		try:
 			user_input = int(input(cur_player + " move: "))
