@@ -58,6 +58,7 @@ def main():
 		board[user_input] = curr_player
 		winner = checkwinner(board)
 		if winner:
+			clearconsole()
 			printboard(board)
 			print(f"Winner is {curr_player}!")
 			break
