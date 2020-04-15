@@ -11,7 +11,6 @@ def clearconsole():
 		system("clear")
 
 def printboard(b):
-	system("cls") # windows' clear console
 	print("+---+---+---+")
 	print(f"| {b[0]} | {b[1]} | {b[2]} |")
 	print("+---+---+---+")
@@ -38,6 +37,7 @@ def main():
 	curr_player = "X"
 
 	while True:
+		clearconsole()
 		printboard(board)
 		try:
 			user_input = int(input(f"{curr_player} plays: "))
@@ -46,7 +46,7 @@ def main():
 		except (KeyboardInterrupt, EOFError):
 			sys.exit()
 			
-		# if user_input slot not exists
+		# if user_input slot does not exists
 		if (user_input < 0) or (user_input > 8):
 			print("No such slot")
 			continue
