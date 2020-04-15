@@ -1,67 +1,62 @@
 from os import system
+import sys
 
-#TODO: ADD COLORAMA
-def printboard(board):
+def printboard(b):
 	system("cls") # windows' clear console
 	print("+---+---+---+")
-	print("| "+board[0]+" | "+board[1]+" | "+board[2]+" |")
+	print(f"| {b[0]} | {b[1]} | {b[2]} |")
 	print("+---+---+---+")
-	print("| "+board[3]+" | "+board[4]+" | "+board[5]+" |")
+	print(f"| {b[3]} | {b[4]} | {b[5]} |")
 	print("+---+---+---+")
-	print("| "+board[6]+" | "+board[7]+" | "+board[8]+" |")
+	print(f"| {b[6]} | {b[7]} | {b[8]} |")
 	print("+---+---+---+")
 
-def checkwinner(board):
-	#diagonal
-	if board[0] == board[4] == board[8]: return True
-	elif board[2] == board[4] == board[6]: return True
-	#horizontal
-	elif board[0] == board[1] == board[2]: return True
-	elif board[3] == board[4] == board[5]: return True
-	elif board[6] == board[7] == board[8]: return True
-	#vertical
-	elif board[0] == board[3] == board[6]: return True
-	elif board[1] == board[4] == board[7]: return True
-	elif board[2] == board[5] == board[8]: return True
-
+def checkwinner(b):
+	if b[0] == b[4] == b[8] or \
+		b[2] == b[4] == b[6] or \
+		b[0] == b[1] == b[2] or \
+		b[3] == b[4] == b[5] or \
+		b[6] == b[7] == b[8] or \
+		b[0] == b[3] == b[6] or \
+		b[1] == b[4] == b[7] or \
+		b[2] == b[8] == b[8]:
+		return True
 	return False
 
 def main():
-	board = [
-		"0", "1", "2",
-		"3", "4", "5",
-		"6", "7", "8"
-	]
+	board = [str(i) for i in range(9)]
 	winner = None
-	cur_player = "X"
+	curr_player = "X"
 
-	run = True
-	while run:
+	while True:
 		printboard(board)
 		try:
-			user_input = int(input(cur_player + " move: "))
+			user_input = int(input(f"{curr_player} plays: "))
 		except ValueError:
 			continue
 		except KeyboardInterrupt:
-			run = False
-		# Validating user input
-		if user_input < 0 or user_input > 8:
+			sys.exit()
+			
+		# if user_input slot not exists
+		if (user_input < 0) or (user_input > 8):
 			print("No such slot")
 			continue
 
 		# check that the slot is not busy
-		if board[user_input] == "X" or board[user_input] == "O":
+		if (board[user_input] == "X") or (board[user_input] == "O"):
 			continue
 
-		board[user_input] = cur_player
+		board[user_input] = curr_player
 		winner = checkwinner(board)
 		if winner:
 			printboard(board)
-			print("Winner is %s!" % cur_player)
+			print(f"Winner is {curr_player}!")
 			break
 		
-		if cur_player == "X": cur_player = "O"
-		else: cur_player = "X"
+		if curr_player == "X":
+			curr_player = "O"
+		else:
+			curr_player = "X"
 
 if __name__ == "__main__":
 	main()
