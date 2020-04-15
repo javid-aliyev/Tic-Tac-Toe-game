@@ -1,5 +1,14 @@
 from os import system
 import sys
+import platform
+
+SYSTEM = platform.system()
+
+def clearconsole():
+	if SYSTEM == "Windows":
+		system("cls")
+	else:
+		system("clear")
 
 def printboard(b):
 	system("cls") # windows' clear console
@@ -34,7 +43,7 @@ def main():
 			user_input = int(input(f"{curr_player} plays: "))
 		except ValueError:
 			continue
-		except KeyboardInterrupt:
+		except (KeyboardInterrupt, EOFError):
 			sys.exit()
 			
 		# if user_input slot not exists
