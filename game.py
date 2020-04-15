@@ -4,13 +4,13 @@ import platform
 
 SYSTEM = platform.system()
 
-def clearconsole():
+def clear_console():
 	if SYSTEM == "Windows":
 		system("cls")
 	else:
 		system("clear")
 
-def printboard(b):
+def print_board(b):
 	print("+---+---+---+")
 	print(f"| {b[0]} | {b[1]} | {b[2]} |")
 	print("+---+---+---+")
@@ -19,7 +19,7 @@ def printboard(b):
 	print(f"| {b[6]} | {b[7]} | {b[8]} |")
 	print("+---+---+---+")
 
-def checkwinner(b):
+def check_winner(b):
 	if b[0] == b[4] == b[8] or \
 		b[2] == b[4] == b[6] or \
 		b[0] == b[1] == b[2] or \
@@ -27,9 +27,28 @@ def checkwinner(b):
 		b[6] == b[7] == b[8] or \
 		b[0] == b[3] == b[6] or \
 		b[1] == b[4] == b[7] or \
-		b[2] == b[8] == b[8]:
+		b[2] == b[5] == b[8]:
 		return True
 	return False
+
+def format_board(b):
+	if b[0] == b[4] == b[8]:
+		b[0] = b[4] = b[8] = "\\"
+	elif b[2] == b[4] == b[6]:
+		b[2] = b[4] = b[6] = "/"
+	elif b[0] == b[1] == b[2]:
+		b[0] = b[1] = b[2] = "-"
+	elif b[3] == b[4] == b[5]:
+		b[3] = b[4] = b[5] = "-"
+	elif b[6] == b[7] == b[8]:
+		b[6] = b[7] = b[8] = "-"
+	elif b[0] == b[3] == b[6]:
+		b[0] = b[3] = b[6] = "|"
+	elif b[1] == b[4] == b[7]:
+		b[1] = b[4] = b[7] = "|"
+	elif b[2] == b[5] == b[8]:
+		b[2] = b[5] = b[8] = "|"
+	return b
 
 def main():
 	board = [str(i) for i in range(9)]
@@ -37,8 +56,8 @@ def main():
 	curr_player = "X"
 
 	while True:
-		clearconsole()
-		printboard(board)
+		clear_console()
+		print_board(board)
 		try:
 			user_input = int(input(f"{curr_player} plays: "))
 		except ValueError:
@@ -56,11 +75,11 @@ def main():
 			continue
 
 		board[user_input] = curr_player
-		winner = checkwinner(board)
+		winner = check_winner(board)
 		if winner:
-			clearconsole()
-			printboard(board)
-			print(f"Winner is {curr_player}!")
+			clear_console()
+			print_board(format_board(board))
+			print(f"{curr_player} won!")
 			break
 		
 		if curr_player == "X":
