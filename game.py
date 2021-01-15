@@ -1,16 +1,46 @@
-from os import system
-import sys
 import platform
+import os
+import sys
+import colorama
 
-SYSTEM = platform.system()
+def main():
+	board = create_board()
+	cur_player = "X"
 
-def clear_console():
-	if SYSTEM == "Windows":
-		system("cls")
-	else:
-		system("clear")
+	while True:
+		clear_console()
+		print_board(board)
+
+		npt = sinput(f"{cur_player}: ")
+		if is_valid_position(npt) and is_free_position(board, int(npt)):
+			board[int(npt)] = cur_player
+
+		if has_winner(board):
+			clear_console()
+			print_board(board)
+			print(f"The winner is: {G + cur_player + RA}! Congratulations!")
+			break
+
+		# switching current player
+		if cur_player == "X":
+			cur_player = "O"
+		else:
+			cur_player = "X"
+
+# =====================
+# = Extra functions ===
+# =====================
+def create_board():
+	return [i for i in range(9)]
 
 def print_board(b):
+	b = list(map(str, b)) # convert each element to string
+	for i in range(len(b)):
+		if b[i] == "X":
+			b[i] = R + b[i] + RA
+		elif b[i] == "O":
+			b[i] = B + b[i] + RA
+
 	print("+---+---+---+")
 	print(f"| {b[0]} | {b[1]} | {b[2]} |")
 	print("+---+---+---+")
@@ -19,7 +49,7 @@ def print_board(b):
 	print(f"| {b[6]} | {b[7]} | {b[8]} |")
 	print("+---+---+---+")
 
-def check_winner(b):
+def has_winner(b):
 	return b[0] == b[4] == b[8] or \
 			b[2] == b[4] == b[6] or \
 			b[0] == b[1] == b[2] or \
@@ -29,61 +59,46 @@ def check_winner(b):
 			b[1] == b[4] == b[7] or \
 			b[2] == b[5] == b[8]
 
-def format_board(b):
-	if b[0] == b[4] == b[8]:
-		b[0] = b[4] = b[8] = "\\"
-	elif b[2] == b[4] == b[6]:
-		b[2] = b[4] = b[6] = "/"
-	elif b[0] == b[1] == b[2]:
-		b[0] = b[1] = b[2] = "-"
-	elif b[3] == b[4] == b[5]:
-		b[3] = b[4] = b[5] = "-"
-	elif b[6] == b[7] == b[8]:
-		b[6] = b[7] = b[8] = "-"
-	elif b[0] == b[3] == b[6]:
-		b[0] = b[3] = b[6] = "|"
-	elif b[1] == b[4] == b[7]:
-		b[1] = b[4] = b[7] = "|"
-	elif b[2] == b[5] == b[8]:
-		b[2] = b[5] = b[8] = "|"
-	return b
+if platform.system().lower() == "windows":
+	def clear_console():
+		os.system("cls")
+else:
+	def clear_console():
+		os.system("clear")
 
-def main():
-	board = [str(i) for i in range(9)]
-	winner = None
-	curr_player = "X"
+def sinput(ps):
+	try:
+		npt = input(ps).strip()
+		return npt
+	except (KeyboardInterrupt, EOFError):
+		sys.exit()
 
-	while True:
-		clear_console()
-		print_board(board)
-		try:
-			user_input = int(input(f"{curr_player} plays: "))
-		except ValueError:
-			continue
-		except (KeyboardInterrupt, EOFError):
-			sys.exit()
-			
-		# if user_input slot does not exists
-		if (user_input < 0) or (user_input > 8):
-			print("No such slot")
-			continue
+def is_valid_position(pos):
+	"""
+	:param pos: str
+	:return: bool
+	"""
+	try:
+		pos = int(pos)
+		if (pos < 0) or (pos > 8):
+			return False
+		return True
+	except ValueError:
+		return False
 
-		# check that the slot is not busy
-		if (board[user_input] == "X") or (board[user_input] == "O"):
-			continue
-
-		board[user_input] = curr_player
-		winner = check_winner(board)
-		if winner:
-			clear_console()
-			print_board(format_board(board))
-			print(f"{curr_player} won!")
-			break
-		
-		if curr_player == "X":
-			curr_player = "O"
-		else:
-			curr_player = "X"
+def is_free_position(b, pos):
+	"""
+	:param pos: int
+	:return: bool
+	"""
+	if (b[pos] != "X") and (b[pos] != "O"):
+		return True
+	return False
 
 if __name__ == "__main__":
+	colorama.init()
+	R = colorama.Fore.RED
+	G = colorama.Fore.GREEN
+	B = colorama.Fore.BLUE
+	RA = colorama.Style.RESET_ALL
 	main()
